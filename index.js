@@ -11,8 +11,8 @@ const HASH_OPTIONS = {
 const abi = new ethers.AbiCoder();
 
 async function main() {
-  const password = "examplePassword34%";
-  const passcode = "23a61w";
+  const password = "DemoAccount5&";
+  const passcode = "112324";
 
   const salt = `${password.slice(-4)}${passcode}`;
 
