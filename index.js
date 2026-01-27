@@ -31,11 +31,13 @@ async function main() {
   );
   const hashHex = Buffer.from(hashBuffer).toString("hex");
   const privateKey = ethers.keccak256(abi.encode(["string"], [hashHex]));
+  const wallet = new ethers.Wallet(privateKey);
   const end = performance.now();
 
   console.log("Calculation Time: ", (end - start) / 1000);
   console.log("Hash: ", hashHex);
   console.log("Private Key: ", privateKey);
+  console.log("Wallet Address: ", wallet.address);
 }
 
 main()
