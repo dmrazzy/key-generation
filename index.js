@@ -11,13 +11,16 @@ const HASH_OPTIONS = {
 const abi = new ethers.AbiCoder();
 
 async function main() {
-  const password = "DemoAccount5&";
-  const passcode = "112324";
+  const passphrase = "DemoAccount5&";
+  const pin = "112324";
 
-  const salt = `${password.slice(-4)}${passcode}`;
+  const salt = `${passphrase.slice(-4)}${pin}`;
 
-  const passwordBuffer = Buffer.from(password);
+  const passwordBuffer = Buffer.from(passphrase);
   const saltBuffer = Buffer.from(salt);
+  const progressCallback = (percentage) => {
+    process.stdout.write(".");
+  }
 
   const start = performance.now();
   const hashBuffer = await scrypt(
@@ -27,13 +30,14 @@ async function main() {
     HASH_OPTIONS.r,
     HASH_OPTIONS.p,
     HASH_OPTIONS.keyLen,
-    (p) => console.log(Math.floor(p * 100))
+    progressCallback
   );
   const hashHex = Buffer.from(hashBuffer).toString("hex");
   const privateKey = ethers.keccak256(abi.encode(["string"], [hashHex]));
   const wallet = new ethers.Wallet(privateKey);
   const end = performance.now();
 
+  console.log("\nDone!");
   console.log("Calculation Time: ", (end - start) / 1000);
   console.log("Hash: ", hashHex);
   console.log("Private Key: ", privateKey);

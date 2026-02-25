@@ -1,5 +1,5 @@
 {
-  "name": "scrypt-node",
+  "name": "@mybucks.online/key-gen-example",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,24 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "author": "",
+  "keywords": [
+    "mybucks.online",
+    "seedless",
+    "disposable",
+    "wallet",
+    "crypto",
+    "multi-chain",
+    "self-custodial",
+    "browser-based",
+    "ethereum",
+    "tron",
+    "scrypt",
+    "keccak256",
+    "key-generation",
+    "open-source"
+  ],
+  "homepage": "https://mybucks.online",
+  "author": "koko37",
   "license": "ISC",
   "dependencies": {
     "buffer": "^6.0.3",
