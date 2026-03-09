@@ -3,21 +3,26 @@ const { Buffer } = require("buffer");
 const { ethers } = require("ethers");
 
 const HASH_OPTIONS = {
-  N: 1024 * 32, // CPU/memory cost parameter (must be a power of 2, > 1)
+  N: 1024 * 128, // CPU/memory cost parameter 2^17, OWASP Recommendation
   r: 8, // block size parameter
-  p: 5, // parallelization parameter
+  p: 1, // parallelization parameter
   keyLen: 64, // length of derived key
 };
+const KDF_DOMAIN_SEPARATOR = "mybucks.online-core.generateHash.v2";
+
 const abi = new ethers.AbiCoder();
 
 async function main() {
   const passphrase = "DemoAccount5&";
   const pin = "112324";
 
-  const salt = `${passphrase.slice(-4)}${pin}`;
-
   const passwordBuffer = Buffer.from(passphrase);
-  const saltBuffer = Buffer.from(salt);
+  const encoded = abi.encode(
+    ["string", "string", "string"],
+    [KDF_DOMAIN_SEPARATOR, passphrase, pin],
+  );
+  const saltHash = ethers.keccak256(encoded);
+  const saltBuffer = Buffer.from(saltHash.slice(2), "hex");
   const progressCallback = (percentage) => {
     process.stdout.write(".");
   }
